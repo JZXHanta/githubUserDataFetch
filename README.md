@@ -4,9 +4,9 @@ This is a simple GUI app written using Python and Flet that displays github info
 
 ## Dependencies
 
-Works on windows without any dependencies outside of the requirements.txt
+Works on Windows and MacOS without any dependencies outside of Python and the requirements.txt
 
-On Linux you may need to install GStreamer libraries if not already installed:
+On Linux or WSL you may need to install GStreamer libraries if not already installed:
 
 - On Ubuntu:
 
@@ -25,4 +25,8 @@ On Linux you may need to install GStreamer libraries if not already installed:
 - Install Python Dependencies
   ```bash
   pip install -r requirements.txt
+  ```
+  or on MacOS:
+  ```bash
+  pip3 install -r requirements.txt
   ```
