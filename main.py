@@ -4,21 +4,35 @@ import flet as ft
 
 def main(page: ft.Page):
     def button_clicked(e):
-        profile_response = requests.get(f'https://api.github.com/users/{username_input.value}')
-        profile_data = profile_response.json() if profile_response.status_code < 300 else "That didn't work..."
-        repo_response = requests.get(f"https://api.github.com/users/{username_input.value}/repos")
-        repo_data = repo_response.json() if profile_response.status_code < 300 else "That didn't work..."
+        profile_response = requests.get(
+            f"https://api.github.com/users/{username_input.value}"
+        )
+        profile_data = (
+            profile_response.json()
+            if profile_response.status_code < 300
+            else "That didn't work..."
+        )
+        repo_response = requests.get(
+            f"https://api.github.com/users/{username_input.value}/repos"
+        )
+        repo_data = (
+            repo_response.json()
+            if profile_response.status_code < 300
+            else "That didn't work..."
+        )
         lv = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
         try:
             for repo in repo_data:
                 repo_name = repo["name"]
                 languages_response = requests.get(
-                    f"https://api.github.com/repos/{username_input.value}/{repo_name}/languages")
+                    f"https://api.github.com/repos/{username_input.value}/{repo_name}/languages"
+                )
                 languages = languages_response.json()
                 langs = ""
 
                 for lang in languages:
-                    langs += f", {lang}" if len(languages) > 1 else f" {lang}"
+                    # TODO: Figure out how to get rid of the trailing comma on last item when your brain is working
+                    langs += f"{lang}, " if len(languages) > 1 else f" {lang}"
                 lv.controls.append(ft.Text(f"{repo_name} - {langs}"))
         except Exception:
             lv.controls.append("Rate limit exceeded)")
@@ -31,29 +45,35 @@ def main(page: ft.Page):
         gh_username = ft.Text(size=100, value=username)
         gh_name = ft.Text(value=f"Name:   {name}")
         gh_link = ft.Text(value=f"Github Page:   {html_url}")
+        public_repos = ft.Text(value="Public Repositories:")
         divider = ft.Divider()
         gh_avatar = ft.Image(
             src=avatar_url,
             width=150,
             height=150,
             border_radius=100,
-            fit=ft.ImageFit.CONTAIN
+            fit=ft.ImageFit.CONTAIN,
         )
         # Removes input data that is no longer required and updates the page
         page.remove(username_input)
         page.remove(b)
-        basics_row = ft.Row(spacing=100, alignment=ft.MainAxisAlignment.CENTER, controls=[gh_avatar, gh_username])
+        basics_row = ft.Row(
+            spacing=100,
+            alignment=ft.MainAxisAlignment.CENTER,
+            controls=[gh_avatar, gh_username],
+        )
         page.add(basics_row)
         page.add(divider)
         st = ft.Stack(
             [
-                ft.Column([
-                    gh_name,
-
-                    gh_link,
-                    lv,
-                ])
-
+                ft.Column(
+                    [
+                        gh_name,
+                        gh_link,
+                        public_repositories,
+                        lv,
+                    ]
+                )
             ],
             width=800,
             height=800,
