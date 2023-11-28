@@ -70,7 +70,7 @@ def main(page: ft.Page):
                     [
                         gh_name,
                         gh_link,
-                        public_repositories,
+                        public_repos,
                         lv,
                     ]
                 )
