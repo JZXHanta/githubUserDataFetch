@@ -30,3 +30,13 @@ On Linux or WSL you may need to install GStreamer libraries if not already insta
   ```bash
   pip3 install -r requirements.txt
   ```
+
+## Run the app
+
+- ```
+  python main.py
+  ```
+  or
+  ```
+  python3 main.py
+  ```
